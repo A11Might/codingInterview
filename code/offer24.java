@@ -20,6 +20,9 @@ public class ListNode {
 }*/
 public class Solution {
     public ListNode ReverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
         // when reverse current listnode's next point
         // use succ to store current listnode' next listnode
         // incase break list
