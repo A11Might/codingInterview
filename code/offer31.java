@@ -14,6 +14,9 @@ import java.util.Deque;
 public class Solution { 
     // simulate push and pop operate
     public boolean IsPopOrder1(int [] pushA,int [] popA) {
+        if (pushA.length == 0) {
+            return false;
+        }
         Deque<Integer> stack = new ArrayDeque<>();
         int index = 0;
         for (int num : pushA) {
