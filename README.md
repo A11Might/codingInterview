@@ -15,3 +15,5 @@ solution of codinginterview
 - [30.包含min函数的栈](./code/offer30.java)
 - [31.栈的压入、弹出序列](./code/offer31.java)
 - [32.从上到下打印二叉树](./code/offer32.java)
+- [33.二叉搜索树的后序遍历序列](./code/offer33.java)
+- [34.二叉树中和为某一值的路径](./code/offer34.java)
