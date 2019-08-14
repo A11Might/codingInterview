@@ -1,5 +1,4 @@
-# CodingInterview
-solution of codinginterview
+# 剑指offer
 
 - [4.二维数组的查找](./code/offer04.java)
 - [5.替换空格](./code/offer05.java)
@@ -15,7 +14,14 @@ solution of codinginterview
 - [30.包含min函数的栈](./code/offer30.java)
 - [31.栈的压入、弹出序列](./code/offer31.java)
 - [32.从上到下打印二叉树](./code/offer32.java)
+- [32.分行从上到下打印二叉树](./code/offer322.java)
+- [32.之字形打印二叉树](./code/offer323.java)
 - [33.二叉搜索树的后序遍历序列](./code/offer33.java)
 - [34.二叉树中和为某一值的路径](./code/offer34.java)
 - [35.复杂链表的复制](./code/offer35.java)
 - [36.二叉搜索树与双向链表](./code/offer36.java)
+- [37.序列化二叉树](./code/offer37.java)
+- [38.字符串的排列](./code/offer38.java)
+- [39.数组中出现次数超过一半的数字](./code/offer39.java)
+- [55.二叉树的深度](./code/offer55.java)
+- [55.平衡二叉树](./code/offer552.java)
