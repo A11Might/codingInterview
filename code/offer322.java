@@ -39,10 +39,14 @@ public class Solution {
         queue.offer(node);
         while (!queue.isEmpty()) {
             ArrayList<Integer> subList = new ArrayList<>();
+            // number of elements in the current level
             int curLevelNum = queue.size();
             for (int i = 0; i < curLevelNum; i++) {
                 TreeNode cur = queue.poll();
+                // fulfill the current level
                 subList.add(cur.val);
+                // add child nodes of the current level if it exist
+                // in the queue for the next level
                 if (cur.left != null) {
                     queue.offer(cur.left);
                 }
