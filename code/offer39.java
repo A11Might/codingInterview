@@ -23,18 +23,16 @@ class Solution {
         }
         int n = array.length;
         int mid = n >> 1;
-        // target range of array
-        // range[0] is start and range[1] is end
-        // because the different between point and copy(very important)
-        int[] range = {0, n - 1};
-        int index = partition(array, range[0], range[1]);
+        // find middle element between start and end
+        int start = 0, end = n - 1;
+        int index = partition(array, start, end);
         while (index != mid) {
             if (index > mid) {
-                range[1] = index - 1;
+                end = index - 1;
             } else {
-                range[0] = index + 1;
+                start = index + 1;
             }
-            index = partition(array, range[0], range[1]);
+            index = partition(array, start, end);
         }
         
         return judgeResult(array, array[index]);
@@ -52,6 +50,7 @@ class Solution {
                 start++;
              }
         }
+        // move end element to right position
         swap(arr, ++smaller, end);
         return smaller;
     }
