@@ -1,4 +1,4 @@
-# 剑指offer
+## 剑指offer 27/66
 
 - [4.二维数组的查找](./code/offer04.java)
 - [5.替换空格](./code/offer05.java)
@@ -23,5 +23,7 @@
 - [37.序列化二叉树](./code/offer37.java)
 - [38.字符串的排列](./code/offer38.java)
 - [39.数组中出现次数超过一半的数字](./code/offer39.java)
+- [40.最小的k个数](./code/offer40.java)
+- [42.连续子数组的最大和](./code/offer42.java)
 - [55.二叉树的深度](./code/offer55.java)
 - [55.平衡二叉树](./code/offer552.java)
