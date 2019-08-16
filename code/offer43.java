@@ -24,8 +24,9 @@ public class Solution {
             weight = rount % 10;
             // current position's prepart
             rount /= 10;
-            // when weight equal 1, weight's prepart has rount conditions and weight's succpart has base conditions
+            // when weight equal 1, weight's prepart has rount + 1 conditions and weight's succpart has base conditions
             // so when weight equal 1 will have rount * base conditions at last
+            // because when prepart equal prepart, should according wieght to judge can increase have 1(very important)
             count += rount * base;
             // above count had include (0 - rount0base) all conditions what weight's position equal 1
             // like 245, above just count 0 to 200, hundred position's take place 1 conditions, 200 to 245 hasn't count
