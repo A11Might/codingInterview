@@ -1,5 +1,3 @@
-## 剑指offer 31/66
-
 |题号|题目|解答|
 | ----- | :-----  | -----: | :------:   |
 |4|[二维数组的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=13&tqId=11154&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](./code/offer04.java)|
