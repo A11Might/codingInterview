@@ -12,6 +12,8 @@ package offer;
  * 
  *      int DiffNum = Xor & (~Xor + 1);//取最低为为 1 的值 
  *      1101 0010 -> 0011    1101 & 0011 = 0001
+ *
+ *      int didffNum = (xor - 1) ^ xor & xor也可以
  */     
 //num1,num2分别为长度为1的数组。传出参数
 //将num1[0],num2[0]设置为返回结果
