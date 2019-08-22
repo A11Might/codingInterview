@@ -11,6 +11,7 @@ import java.util.HashSet;
  * 
  * 思路：1、双重循环遍历，用set省去内层循环
  *      2、由于是递增排序数组，使用头尾双指针
+ *        （和相同的两个数，相差越大乘积越大，所以第一次得到两个数的即为答案）
  */     
 public class Solution {
     // use set to find number pair
