@@ -9,8 +9,10 @@ package offer;
  */     
 public class Solution {
     public void reOrderArray(int [] array) {
-        int n = array.length;
-        for (int i = 1; i < n; i++) {
+        if (array == null || array.length < 2) {
+            return;
+        }
+        for (int i = 1; i < array.length; i++) {
             // if current element is uneven number
             // judge its previous element is even number or not
             // if previous element is even number swap current element and previous(actually not swap)  
