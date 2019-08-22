@@ -10,22 +10,20 @@ package offer;
 public class Solution {
     public void reOrderArray(int [] array) {
         int n = array.length;
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i < n; i++) {
+            // if current element is uneven number
+            // judge its previous element is even number or not
+            // if previous element is even number swap current element and previous(actually not swap)  
+            // continue judge current element previous until it's a uneven number
             if (array[i] % 2 != 0) {
-                for (int j = i - 1; j >= 0; j--) {
-                    if (array[j] % 2 == 0) {
-                        swap(array, j, j + 1);
-                    } else {
-                        break;
-                    }
+                int value = array[i];
+                int cur = i;
+                while (cur > 0 && (array[cur - 1] % 2 == 0)) {
+                    array[cur] = array[cur - 1];
+                    cur--;
                 }
+                array[cur] = value;
             }
         }
-    }
-
-    private void swap(int[] array, int a, int b) {
-        int temp = array[b];
-        array[b] = array[a];
-        array[a] = temp;
     }
 }
