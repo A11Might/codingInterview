@@ -44,21 +44,18 @@ public class Solution {
             return false; 
         }
         // traverse array
-        for (int i = 0; i < length; ) {
+        for (int i = 0; i < length; i++) {
             // if current number isn't in it's right position
             // judge right position is duplication of its or not
             // if not swap its and right position element
             // and continue judge swap element is in right position
-            if (i != numbers[i]) {
+            while (i != numbers[i]) {
                 if (numbers[numbers[i]] == numbers[i]) {
                     duplication[0] = numbers[i];
                     return true;
                 } else {
                     swap(numbers, i, numbers[i]);
                 }
-            // if current number is in it's right position, continue traverse
-            } else {
-                i++;
             }
         }
 
