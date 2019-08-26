@@ -1,9 +1,15 @@
-## 剑指Offer [67/66](https://www.nowcoder.com/ta/coding-interviews?page=1)
+## 剑指Offer 67/66
+
+ `oj` [牛客网的oj](https://www.nowcoder.com/ta/coding-interviews?page=1)(点击题目，即可跳转到该题的oj页面）
+
+`*` 表示没有oj的题目
+
+`题号` 表示在剑指offer第二版中的题号
 
 |题号|题目|解答|
 | ----- | :-----  | -----: |
 |3.1|[数组中重复的数字](https://www.nowcoder.com/practice/623a5ac0ea5b4e5f95552655361ae0a8?tpId=13&tqId=11203&tPage=3&rp=3&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](./code/offer03.java)|
-|3.2|[不修改数组找到重复的数字]()|[java](./code/offer032.java)|
+|3.2 *|[不修改数组找到重复的数字]()|[java](./code/offer032.java)|
 |4|[二维数组的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=13&tqId=11154&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](./code/offer04.java)|
 |5|[替换空格](https://www.nowcoder.com/practice/4060ac7e3e404ad1a894ef3e17650423?tpId=13&tqId=11155&tPage=1&rp=1&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking)|[java](./code/offer05.java)|
 |6|[从尾到头打印链表](https://www.nowcoder.com/practice/d0267f7f55b3412ba93bd35cfa8e8035?tpId=13&tqId=11156&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](./code/offer06.java)|
