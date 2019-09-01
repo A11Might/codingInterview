@@ -6,12 +6,12 @@ package offer;
  * 题目：实现一个函数用来找出字符流中第一个只出现一次的字符
  * 
  * 思路：用数组存储每个从数据流中读取字符的索引(从1开始)用于取出第一个只出现一次的字符
- *      当当前元素为重复元素时，数组中的该位置标记为-1
+ *      当前位置无元素，数值为0，当前位置元素重复，数值为-1，当前位置元素只出现一个，数值为字符在字符流中的位置
  */
 public class Solution {
     // use array to store current char's index
     // index is char in string's position
-    private int[] occurrence = new int[256];
+    private int[] occurrence = new int[128];
     private int index = 1;
 
     //Insert one char from stringstream
