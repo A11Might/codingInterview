@@ -16,7 +16,7 @@ public class Solution {
             return -1;
         }
         // use array to store char appear times
-        int[] times = new int[256];
+        int[] times = new int[128];
         // first traverse for statistics char appear times
         for (int i = 0; i < n; i++) {
             times[(int) str.charAt(i)]++;
