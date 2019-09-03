@@ -36,24 +36,24 @@ public class Solution {
 
     // iteration
     public double Power(double base, int exponent) {
-    if (exponent == 0) {
-        return 1;
-    }
-    if (exponent == 1) {
-        return base;
-    }
-    boolean flag = exponent > 0 ? true : false;
-    exponent = Math.abs(exponent);
-    // imitate quick power calculate
-    double res = base;
-    while (exponent >= 2) {
-        res *= res;
-        if ((exponent & 1) == 1) {
-            res *= base;
+        if (exponent == 0) {
+            return 1;
         }
-        exponent >>= 1;
-    }
+        if (exponent == 1) {
+            return base;
+        }
+        boolean flag = exponent > 0 ? true : false;
+        exponent = Math.abs(exponent);
+        // imitate quick power calculate
+        double res = base;
+        while (exponent >= 2) {
+            res *= res;
+            if ((exponent & 1) == 1) {
+                res *= base;
+            }
+            exponent >>= 1;
+        }
 
-    return flag ? res : 1 / res;
-}
+        return flag ? res : 1 / res;
+    }
 }
