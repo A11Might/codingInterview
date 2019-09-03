@@ -36,29 +36,24 @@ public class Solution {
 
     // iteration
     public double Power(double base, int exponent) {
-        if (exponent == 0) {
-            return 1;
-        }
-        if (exponent == 1) {
-            return base;
-        }
-        // judge exponent is positive or nagetive
-        // to decide return res or 1 / res
-        boolean flag = exponent > 0 ? true : false;
-        exponent = Math.abs(exponent);
-        double res = base;
-        // a ^ n = (a ^ (n / 2)) * (a ^ (n / 2))
-        while (exponent > 1) {
-            res *= res;
-            exponent >>= 1;
-        }
-        // a ^ n = (a ^ ((n - 1) / 2)) * (a ^ ((n - 1) / 2)) * a
-        // if exponent is uneven number
-        // should multiply base one more time
-        if (exponent == 1) {
+    if (exponent == 0) {
+        return 1;
+    }
+    if (exponent == 1) {
+        return base;
+    }
+    boolean flag = exponent > 0 ? true : false;
+    exponent = Math.abs(exponent);
+    // imitate quick power calculate
+    double res = base;
+    while (exponent >= 2) {
+        res *= res;
+        if ((exponent & 1) == 1) {
             res *= base;
         }
-
-        return flag ? res : 1 / res;
+        exponent >>= 1;
     }
+
+    return flag ? res : 1 / res;
+}
 }
