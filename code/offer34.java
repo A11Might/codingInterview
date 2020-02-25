@@ -1,57 +1,59 @@
-package offer;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * [34] 二叉树中和为某一值的路径
- * 
- * 题目：打印出二叉树中节点值的和为输入整数的所有路径
- * 
- * 思路：DFS
+ *
+ * 题目: 返回给定二叉树中节点值的和为输入整数的所有路径. 从树的根节点开始往下一直到叶节点所经过的节点形成一条路径.
+ *
+ * 思路: 回溯算法.
  */
+
 /**
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    private List<List<Integer>> res = new ArrayList<>();
 
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-
-}
-*/
-public class Solution {
-    public ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-    public ArrayList<ArrayList<Integer>> FindPath(TreeNode root,int target) {
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
         if (root == null) {
-            return res;
+            return Collections.emptyList();
         }
-        FindPathCore(new ArrayList<>(), root, target, 0);
+        dfs(root, new ArrayList<>(), sum);
+
         return res;
     }
 
-    private void FindPathCore(ArrayList<Integer> subList, TreeNode node, int target, int curSum) {
-        // calculate current node value to current sum
-        // and add current node to sublist
-        curSum += node.val;
-        subList.add(node.val);
-        // if current node is leaf and current sum is equal to target
-        // generate one path
-        if (node.left == null && node.right == null && curSum == target) {
-            res.add(new ArrayList<Integer>(subList));
+    private void dfs(TreeNode root, List<Integer> path, int sum) {
+        if (root == null) {
+            return;
         }
-        // if current node have left, recurve move to left
-        if (node.left != null) {
-            FindPathCore(subList, node.left, target, curSum);
+        // calculate current node value to current sum,
+        // and add current node to path.
+        sum -= root.val;
+        path.add(root.val);
+        if (root.left == null && root.right == null && sum == 0) {
+            // if current node is leaf and current sum is equal to target,
+            // get one path which path's sum equal sum.
+            res.add(new ArrayList(path));
+        } else {
+            // if current node isn't leaf or current sum isn't equal to target,
+            // continue recursive call dfs to find path.
+            dfs(root.left, path, sum);
+            dfs(root.right, path, sum);
         }
-        // if current node have right, recurve move to right
-        if (node.right != null) {
-            FindPathCore(subList, node.right, target, curSum);
-        }
-        // hidden condition: current node is leaf but current sum isn't equal to target
-        // when back to upper should remove current node(very important) 
-        subList.remove(subList.size() - 1);
+        // backtrack: when back to upper should remove current node(very important).
+        path.remove(path.size() - 1);
     }
 }

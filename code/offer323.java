@@ -1,66 +1,64 @@
-package offer;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
- * [32] 之字形打印二叉树
+ * [32-III] 之字形打印二叉树
  * 
- * 题目：第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印
- *      第三行按照从左到右的顺序打印，其他行以此类推
+ * 题目: 按照之字形顺序打印二叉树, 即第一行按照从左到右的顺序打印, 第二层按照从右到左的顺序打印, 第三行再按照从左到右的顺序打印,
+ *      其他行以此类推.
  * 
- * 思路：BFS
+ * 思路: 使用队列来进行层次遍历.
  */
-/*
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
 
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-
-}
-*/
-public class Solution {
-    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        if (pRoot == null) {
-            return res;
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
         }
+        List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> queue = new ArrayDeque<>();
+        queue.offer(root);
         boolean flag = true;
-        queue.offer(pRoot);
         while (!queue.isEmpty()) {
-            LinkedList<Integer> subList = new LinkedList<>();
-            // number of elements in the current level
-            int nums = queue.size();
-            for (int i = 0; i < nums; i++) {
+            // number of elements in the current level.
+            int size = queue.size();
+            LinkedList<Integer> sublist = new LinkedList<>();
+            while (size-- > 0) {
                 TreeNode cur = queue.poll();
-                // fulfill the current level
-                // maybe change the dirction of store order(base on flag)
+                // according to flag to decide storage order.
+                // for fulfill the current level's node list.
                 if (flag) {
-                    subList.add(cur.val);
+                    sublist.add(cur.val);
                 } else {
-                    subList.addFirst(cur.val); // <---
+                    sublist.addFirst(cur.val);
                 }
-                // add child nodes of the current level if it exist
-                // in the queue for the next level
+                // add exist child nodes of the current level in the queue,
+                // for the next level traverse.
                 if (cur.left != null) {
                     queue.offer(cur.left);
-                } 
+                }
                 if (cur.right != null) {
                     queue.offer(cur.right);
                 }
             }
-            res.add(new ArrayList<>(subList));
-            // change the dirction of store order
+            res.add(new ArrayList(sublist));
+            // when traverse the next level,
+            // change the direction of storage order.
             flag = !flag;
         }
+
         return res;
     }
 }

@@ -1,41 +1,46 @@
-package offer;
-
 /**
- * [15] 二进制中1的个数
- * 
- * 题目：输出给定整数二进制表示中1的个数(其中负数用补码表示)
- * 
- * 思路：1、使用右移操作，从右到左判断每一位上的数是否为1
- *      2、(n - 1) & n操作可以将n的最右边的1变为0
- *         计算可以进行多有次此操作，就有多少个1，如；
- *         (1100 - 1) & 1100 = 1011 & 1100 = 1000
- *          (减1操作将原数字最右边的1变为0，其后为变为1
- *          与原数字&后，即将原数字最右边的1变为零)
+ * [15] 二进制中 1 的个数
+ *
+ * 题目: 输入一个整数, 输出该数二进制表示中 1 的个数.
+ *
+ * 思路: 1. 使用无符号右移操作, 从右到左判断二进制表示的每一位上的数是否为 1.
+ *      2. (n - 1) & n操作可以将 n 的最右边的 1 变为 0, 所以计算可以进行多少次此操作, 就有多少个1.
+ *         如: (1100 - 1) & 1100 = 1011 & 1100 = 1000.
+ *         (减 1 操作将原数字最右边的 1 变为 0, 其后所有位变为 1 与原数字 & 后, 即将原数字最右边的 1 变为 0)
  */
 public class Solution {
-    public int NumberOf11(int n) {
-        int count = 0;
+    /**
+     * 时间复杂度: O(m) (m 表示 n 的二进制位数)
+     * 空间复杂度: O(1)
+     */
+    // you need to treat n as an unsigned value
+    public int hammingWeight1(int n) {
+        int cnt = 0;
         while (n != 0) {
-            if ((n & 1) == 1) {
-                count++;
-            }
+            // judge every position of n's binary number is 1 or not,
+            // and count 1's appeared times.
+            cnt += n & 1;
             n >>>= 1;
         }
 
-        return count;
+        return cnt;
     }
 
-    public int NumberOf12(int n) {
-        int count = 0;
-        // when n not equal 0, explain n have one 1 at last
-        // count plus one
-        // then n = (n - 1) & n operation n lost this one 1
-        // and continue judge n is equal 0 or not
+    /**
+     * 时间复杂度: O(m) (m 表示 n 的二进制中 1 的个数)
+     * 空间复杂度: O(1)
+     */
+    // you need to treat n as an unsigned value
+    public int hammingWeight2(int n) {
+        int cnt = 0;
+        // when n not equal 0, explain n have one 1 at last, cnt plus one.
+        // then n = (n - 1) & n operation let n lost this one 1 which Just accumulated,
+        // and continue judge n is equal 0 or not.
         while (n != 0) {
-            count++;
+            cnt++;
             n = (n - 1) & n;
         }
 
-        return count;
+        return cnt;
     }
 }

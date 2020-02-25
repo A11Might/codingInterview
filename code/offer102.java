@@ -1,30 +1,28 @@
-package offer;
-
 /**
- * [10] 青蛙跳台阶问题
- * 
- * 题目：一次上1级台阶，也上2级,求上n级的台阶共有多少种跳法
- *      (先后次序不同算不同的结果)
- * 
- * 思路：状态转移方程：f(n) = f(n - 1) + f(n - 2)
- *       实际上就是斐波那切数列
- */     
-public class Solution {
-    public int JumpFloor(int n) {
-        if (n == 0) {
-            return 0;
-        }
-        if (n == 1) {
+ * [10-II] 青蛙跳台阶问题
+ *
+ * 题目: 一只青蛙一次可以跳上 1 级台阶, 也可以跳上 2 级台阶. 求该青蛙跳上一个 n 级的台阶总共有多少种跳法.
+ *      (答案需要取模 1e9 + 7 (1000000007))
+ *
+ * 思路: 动态规划, f(i) 表示 i 个台阶一共有多少种跳法;
+ *               状态转移方程: f(i) = f(i - 1) + f(i - 2).
+ *       与 [10-I] 斐波那切数列的不同在于, 此题的 f(0) = 1, f(1) = 1(斐波那切数列的 f(0) = 0, f(1) = 1).
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
+    public int numWays(int n) {
+        if (n <= 1) {
             return 1;
         }
-        if (n == 2) {
-            return 2;
-        }
-        int pre = 1, succ = 2;
-        for (int i = 2; i < n; i++) {
-            // move one step by one step
-            succ = pre + succ;
-            pre = succ - pre;
+        int pre = 1, succ = 1;
+        for (int i = 2; i <= n; i++) {
+            // state transition equation: f(i) = f(i - 1) + f(i - 2).
+            int fib = (pre + succ) % (int) (1e9 + 7);
+            pre = succ;
+            succ = fib;
         }
 
         return succ;

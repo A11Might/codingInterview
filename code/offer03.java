@@ -1,66 +1,89 @@
-package offer;
+import java.util.Arrays;
 
 /**
- * [3] 数组中重复的数字
- * 
- * 题目：在一个长度为n的数组里的所有数字都在0到n-1的范围内，数组中某些数字是重复的，找出数组中任意一个重复的数字
- *       (不知道有几个数字是重复的。也不知道每个数字重复几次)
- * 
- * 思路：1、使用数组注册已遍历过的数字，当遍历的数字出现过，则找到重复数字
- *       2、遍历数组，将数字按大小归位(数字大小为索引)，若同一个位子上出现两个数字，则找到重复数字
+ * [03] 数组中重复的数字
+ *
+ * 题目: 找出数组中重复的数字
+ *
+ *      在一个长度为 n 的数组里的所有数字都在 0 到 n - 1 的范围内, 数组中某些数字是重复的, 找出数组中任意一个重复的数字.
+ *      (不知道有几个数字是重复的; 也不知道每个数字重复几次)
+ *
+ * 思路: 1. 将输入数组排序, 从排序的数组中找到重复的数字.
+ *      2. 使用哈希表(字符集小的时候可以使用数组)存储已遍历过的数字, 若当前遍历的数字出现过, 则找到重复数字.
+ *      3. 遍历数组, 将数字按归位(即将数字 i 放在下标为 i 的位置), 若同一个位置上存在多个数字, 则找到重复数字.
  */
-public class Solution {
-    // Parameters:
-    //    numbers:     an array of integers
-    //    length:      the length of array numbers
-    //    duplication: (Output) the duplicated number in the array number,length of duplication array is 1,so using duplication[0] = ? in implementation;
-    //                  Here duplication like pointor in C/C++, duplication[0] equal *duplication in C/C++
-    //    这里要特别注意~返回任意重复的一个，赋值duplication[0]
-    // Return value:       true if the input is valid, and there are some duplications in the array number
-    //                     otherwise false
-    public boolean duplicate1(int numbers[],int length,int [] duplication) {
-        if (numbers == null || numbers.length == 0) {
-            return false; 
+class Solution {
+    /**
+     * 时间复杂度: O(n * logn)
+     * 空间复杂度: O(1)
+     */
+    public int findRepeatNumber1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
         }
-        // use array to store number appear times
-        int[] times = new int[length];
-        // traverse array
-        // if current number had appeared, find the duplication
-        for (int num : numbers) {
-            if (times[num] != 0) {
-                duplication[0] = num;
-                return true;
+        // sort array, make same elements to adjacent.
+        Arrays.sort(nums);
+        // traverse array to judge two adjacent elements is same or not.
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] == nums[i - 1]) {
+                return nums[i];
             }
-            // use array times mark number had appeared
-            times[num]++;
         }
 
-        // none of duplication
-        return false;
+        // none of duplication.
+        return -1;
     }
 
-    public boolean duplicate(int numbers[],int length,int [] duplication) {
-        if (numbers == null || numbers.length == 0) {
-            return false; 
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    public int findRepeatNumber2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
         }
-        // traverse array
-        for (int i = 0; i < length; i++) {
-            // if current number isn't in it's right position
-            // judge right position is duplication of its or not
-            // if not swap its and right position element
-            // and continue judge swap element is in right position
-            while (i != numbers[i]) {
-                if (numbers[numbers[i]] == numbers[i]) {
-                    duplication[0] = numbers[i];
-                    return true;
+        // use array to storage number had appeared or not.
+        boolean[] appeared = new boolean[nums.length];
+        // traverse array nums.
+        for (int num : nums) {
+            // if current number had appeared, find the duplication.
+            if (appeared[num]) {
+                return num;
+            }
+            // use array appeared mark number had appeared.
+            appeared[num] = true;
+        }
+
+        // none of duplication.
+        return -1;
+    }
+
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
+    public int findRepeatNumber3(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        // traverse array nums.
+        for (int i = 0; i < nums.length; i++) {
+            // if current number isn't in it's right position,
+            // judge right position's element is same of its or not.
+            // if same, find the duplication;
+            // if not, swap its and the right position element,
+            // then continue while process(judge current element is in it's right position or not).
+            while (i != nums[i]) {
+                if (nums[nums[i]] == nums[i]) {
+                    return nums[i];
                 } else {
-                    swap(numbers, i, numbers[i]);
+                    swap(nums, i, nums[i]);
                 }
             }
         }
 
-        // none of duplication
-        return false;
+        // none of duplication.
+        return -1;
     }
 
     private void swap(int[] arr, int a, int b) {

@@ -1,48 +1,48 @@
-package offer;
-
 /**
- * [53] 在排序数组中查找数字
- * 
- * 题目：统计一个数字在排序数组中出现的次数
- * 
- * 思路：语义约定，二分查找返回不大于目标元素的最后一个元素
- *              1> 当有多个命中元素时，必须返回最靠后的元素
- *              2> 失败时，应返回小于目标元素的最大者(含哨兵(lo - 1))
- *      二分查找目标元素 - 1的下标加一和目标元素的下标即为目标数字出现范围
- */     
-public class Solution {
-    public int GetNumberOfK(int [] array , int k) {
-        int n = array.length;
-        if (array == null || n == 0) {
+ * [53-I] 在排序数组中查找数字
+ *
+ * 题目: 统计一个数字在排序数组中出现的次数.
+ *
+ * 思路: 二分查找返回不大于目标元素的最后一个元素, 即将数组分为小于等于目标元素的区间和大于目标元素的区间, 返回前一个区间的最后一个元素.
+ *      语义约定: a. 当有多个目标元素时, 必须返回最靠后的元素.
+ *               b. 失败时, 应返回小于目标元素的最大者(含哨兵 (lo - 1)).
+ *      使用二分查找目标元素 -1 得到的下标 +1 和目标元素的下标之间即为目标数字出现范围.
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(logn)
+     * 空间复杂度: O(1)
+     */
+    public int search(int[] nums , int target) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
-        // find target element if success, will return lastPos
-        // if failure, will return -1 or n - 1
-        // so just need judge n - 1 is target element or not
-        // can judge is array contain target element or not
-        int lastPos = binarySearch(array, k);
-        if (lastPos == -1 || array[lastPos] != k) {
+        // use binary search to find target element,
+        // if success, will return right lastPos,
+        // if failure, will return -1 or n - 1,
+        // so need judge current return index is right or not.
+        int lastPos = binarySearch(nums, target);
+        if (lastPos == -1 || nums[lastPos] != target) {
             return 0;
         }
-        // find target - 1 for find first target element's pre 
-        int firstPosPre = binarySearch(array, k - 1);
-        
+        // find target - 1 for get the first element index in front of target.
+        int firstPosPre = binarySearch(nums, target - 1);
+
         return lastPos - firstPosPre;
     }
 
-    // binary search
-    // return the last target element or failure
-    private int binarySearch(int[] arr, int target) {
-        int lo = 0, hi = arr.length;
-        while (lo < hi) {
+    // return the last target element.
+    private int binarySearch(int[] nums, int target) {
+        int lo = 0, hi = nums.length - 1;
+        while (lo <= hi) {
             int mid = lo + ((hi - lo) >> 1);
-            if (target < arr[mid]) {
-                hi = mid;
-            } else {
+            if (nums[mid] <= target) {
                 lo = mid + 1;
+            } else {
+                hi = mid - 1;
             }
         }
 
-        return lo - 1;
+        return hi;
     }
 }

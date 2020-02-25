@@ -1,38 +1,52 @@
 /**
- * [55] 平衡二叉树
+ * [55-II] 平衡二叉树
  * 
- * 题目二：判断二叉树是否是平衡二叉树
+ * 题目: 判断给定二叉树树是不是平衡二叉树. 如果某二叉树中任意节点的左右子树的深度相差不超过 1, 那么它就是一棵平衡二叉树.
  * 
- * 思路：树型dp(后序遍历)
+ * 思路: 树型 DP.
  */
-public class Solution {
-    public boolean IsBalanced_Solution1(TreeNode root) {
-        // use isB to store all subtree is balance or not
-        // when one of all subtree isn't balance direct return
-        boolean[] isB = {true};
-        IsBalanced_SolutionCore(root, 1, isB);
-        return isB[0];
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(logn)
+     */
+    public boolean isBalanced(TreeNode root) {
+        // use a two element array to storage current tree's message.
+        // array[0] represent is balance, 0: is't balance; 1: is balance.
+        // array[1] represent tree's height.
+        int[] ret = isBalancedCore(root);
+        return ret[0] == 1;
     }
 
-    private int IsBalanced_SolutionCore(TreeNode node, int level, boolean[] isB) {
-        if (node == null) {
-            return level;
+    private int[] isBalancedCore(TreeNode root) {
+        if (root == null) {
+            return new int[] {1, 0};
         }
-        // recurve collect left subtree's message 
-        // if right subtree isn't balance direct return
-        int leftL = IsBalanced_SolutionCore(node.left, level + 1, isB);
-        if (!isB[0]) {
-            return level;
+        // recursive call isBalancedCore to collect left subtree's message,
+        // if right subtree isn't balance direct return.
+        int[] left = isBalancedCore(root.left);
+        if (left[0] == 0) {
+            return new int[] {0, 0};
         }
-        // same to right subtree
-        int rightL = IsBalanced_SolutionCore(node.right, level + 1, isB);
-        if (!isB[0]) {
-            return level;
+        // same way to right subtree.
+        int[] right = isBalancedCore(root.right);
+        if (right[0] == 0
+                // judge current tree is balance or not.
+                || Math.abs(left[1] - right[1]) > 1) {
+            return new int[] {0, 0};
         }
-        // judge current tree is balance or not
-        if (Math.abs(leftL - rightL) > 1) {
-            isB[0] = false;
-        }
-        return Math.max(leftL, rightL);
+
+        // make current tree's message.
+        return new int[] {1, Math.max(left[1], right[1]) + 1};
     }
 }

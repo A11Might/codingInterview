@@ -1,50 +1,50 @@
-package offer;
-
 /**
  * [26] 树的子结构
  * 
- * 题目：判断二叉树B是不是二叉树A的子结构(空树不是任何一个树的子结构)
- * 
- * 思路：node1              node2
+ * 题目: 判断给定二叉树 B 是不是 A 的子结构. (约定空树不是任意一个树的子结构)
+ *      (B 是 A 的子结构，, 即 A 中有出现和 B 相同的结构和节点值)
+ *
+ * 思路: node1              node2
  *        1                   1
  *      3   5               3   5
  *     2 4 6 7
- *      遍历A树的每个节点，以可能的子树和B树比较，判断是否为其子树
- *      node2遍历完，则node2是node1的子树，node1遍历完node2还没遍历完，则不是
+ *      遍历 A 树, 将以每个节点为根节点的子树和 B 树比较, 判断 B 是否为其子树.
+ *      若 node2 遍历完, 则 node2 是 node1 的子树, node1 遍历完 node2 还没遍历完, 则不是.
  */
+
 /**
- * public class TreeNode { 
- *      int val = 0; 
- *      TreeNode left = null; 
- *      TreeNode right = null;
- * 
- *      public TreeNode(int val) { 
- *          this.val = val;
- *      }    
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
-    public boolean HasSubtree(TreeNode root1, TreeNode root2) {
-        if (root1 == null || root2 == null) {
+class Solution {
+    /**
+     * 时间复杂度: O(m * n) (m 为 A 的节点数, n 为 B 的节点数)
+     * 空间复杂度: O(n)
+     */
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if (A == null || B == null) {
             return false;
         }
-        return isSubtree(root1, root2) || HasSubtree(root1.left, root2) || HasSubtree(root1.right, root2);
+        return isSubStructureCore(A, B)
+                || isSubStructure(A.left, B) || isSubStructure(A.right, B);
     }
 
-    private boolean isSubtree(TreeNode node1, TreeNode node2) {
-        // node1 == null & node2 == null
-        // or node1 != null & node2 == null
-        if (node2 == null) {
+    private boolean isSubStructureCore(TreeNode root1, TreeNode root2) {
+        // root1 == null && root2 == null,
+        // or root1 != null && root2 == null.
+        if (root2 == null) {
             return true;
         }
-        // node1 == null & node2 != null
-        if (node1 == null) {
+        // root1 == null & root2 != null,
+        // or root1 noe equal root2.
+        if (root1 == null || root1.val != root2.val) {
             return false;
         }
-        if (node1.val == node2.val) {
-            return isSubtree(node1.left, node2.left) && isSubtree(node1.right, node2.right);
-        } else {
-            return false;
-        }
+        return isSubStructureCore(root1.left, root2.left) && isSubStructureCore(root1.right, root2.right);
     }
 }

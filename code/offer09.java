@@ -1,40 +1,50 @@
-package offer;
-
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * [9] 用两个栈实现队列
- * 
- * 题目：用两个栈来实现一个队列
- * 
- * 思路：使用两个辅助栈，一个输入栈一个输出栈
+ * [09] 用两个栈实现队列
+ *
+ * 题目: 用两个栈来实现一个队列.
+ *
+ * 思路: 使用两个辅助栈, 一个输入栈IN和一个输出栈OUT. 输入时总是压入栈IN, 输出时将栈IN中的元素全部弹出并压入栈OUT后再从OUT栈中弹出,
+ *      这样出栈顺序就和最开始入栈顺序是相同的, 即先进入的元素先退出, 这就是队列的顺序.
  */
-public class Solution {
-    Stack<Integer> stack1 = new Stack<Integer>();
-    Stack<Integer> stack2 = new Stack<Integer>();
-    
-    public void push(int node) {
-        // node always push in stack1
-        stack1.push(node);
-        // when stack2 is empty
-        // push all stack1's element to stack2
-        if (stack2.isEmpty()) {
-            while (!stack1.isEmpty()) {
-                stack2.push(stack1.pop());
-            }
-        }
+class CQueue {
+    private Deque<Integer> in;
+    private Deque<Integer> out;
+
+    public CQueue() {
+        in = new ArrayDeque<>();
+        out = new ArrayDeque<>();
     }
-    
-    public int pop() {
-        // pop operate always pop stack2
-        int res = stack2.pop();
-        // when stack2 is empty
-        // push all stack1's element to stack2
-        if (stack2.isEmpty()) {
-            while (!stack1.isEmpty()) {
-                stack2.push(stack1.pop());
+
+    public void appendTail(int value) {
+        // node always push into stack IN.
+        in.push(value);
+    }
+
+    public int deleteHead() {
+        if (out.isEmpty()) {
+            if (in.isEmpty()) {
+                // when queue is empty, return -1.
+                return -1;
+            } else {
+                // when stack IN is empty but stack OUT have elements,
+                // push all stack OUT's element into stack IN.
+                while (!in.isEmpty()) {
+                    out.push(in.pop());
+                }
             }
         }
-        return res;
+
+        // pop operate always use to stack OUT.
+        return out.pop();
     }
 }
+
+/**
+ * Your CQueue object will be instantiated and called as such:
+ * CQueue obj = new CQueue();
+ * obj.appendTail(value);
+ * int param_2 = obj.deleteHead();
+ */

@@ -1,12 +1,11 @@
-package offer;
-
 /**
  * [23] 链表中环的入口节点
  * 
- * 题目：返回给定链表的环的入口结点，若无，则返回null
+ * 题目: 给一个链表, 若其中包含环, 返回该链表的环的入口结点, 否则, 输出 null.
  * 
- * 思路：快慢指针
- */     
+ * 思路: Floyd 算法, 找出列表中是否有环, 如果没有环, 可以直接返回 null 并退出. 否则, 用相遇节点来找到环的入口.
+ */
+
 /*
  public class ListNode {
     int val;
@@ -18,16 +17,16 @@ package offer;
 }
 */
 public class Solution {
-
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
     public ListNode EntryNodeOfLoop(ListNode pHead) {
-        if (pHead == null) {
-            return null;
+        if (pHead == null || pHead.next == null) {
+            return pHead;
         }
-        ListNode fast = pHead;
-        ListNode slow = pHead;
-        // judge list have cycle or not
-        // when fast arrive list end or fast point meet slow point, terminal itration
-        // its means no cycle or have cycle
+        ListNode fast = pHead, slow = pHead;
+        // judge list have cycle or not.
         while (fast != null && fast.next != null) {
             fast = fast.next.next;
             slow = slow.next;
@@ -35,11 +34,11 @@ public class Solution {
                 break;
             }
         }
-        // if fast is in list end, no cycle 
+        // if fast pointer point the end of list, means list haven't cycle.
         if (fast == null || fast.next == null) {
             return null;
         }
-        // if list have cycle, find into cycle node 
+        // if list have cycle, find into cycle's node.
         fast = pHead;
         while (fast != slow) {
             fast = fast.next;

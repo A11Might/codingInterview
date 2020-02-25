@@ -1,52 +1,44 @@
-package offer;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
+import java.util.*;
 
 /**
- * [32] 分行从上到下打印二叉树
+ * [32-II] 分行从上到下打印二叉树
  * 
- * 题目：从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行
+ * 题目: 从上到下按层打印二叉树, 同一层的节点按从左到右的顺序打印, 每一层打印到一行.
  * 
- * 思路：BFS
+ * 思路: 使用队列来进行层次遍历.
  */
-/*
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
 
-    public TreeNode(int val) {
-        this.val = val;
-
-    }
-
-}
-*/
-public class Solution {
-    ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
-        ArrayList<ArrayList<Integer>> res = new ArrayList<>();
-        if (pRoot == null) {
-            return res;
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
         }
-        
-        return bfs(pRoot, res);
-    }
-
-    ArrayList<ArrayList<Integer>> bfs(TreeNode node, ArrayList<ArrayList<Integer>> res) {
+        List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> queue = new ArrayDeque<>();
-        queue.offer(node);
+        queue.offer(root);
         while (!queue.isEmpty()) {
-            ArrayList<Integer> subList = new ArrayList<>();
-            // number of elements in the current level
-            int curLevelNum = queue.size();
-            for (int i = 0; i < curLevelNum; i++) {
+            // number of elements in the current level.
+            int size = queue.size();
+            List<Integer> sublist = new ArrayList<>();
+            while (size-- > 0) {
                 TreeNode cur = queue.poll();
-                // fulfill the current level
-                subList.add(cur.val);
-                // add child nodes of the current level if it exist
-                // in the queue for the next level
+                // fulfill the current level's node list.
+                sublist.add(cur.val);
+                // add exist child nodes of the current level in the queue,
+                // for the next level traverse.
                 if (cur.left != null) {
                     queue.offer(cur.left);
                 }
@@ -54,10 +46,9 @@ public class Solution {
                     queue.offer(cur.right);
                 }
             }
-            res.add(subList);
+            res.add(new ArrayList(sublist));
         }
-        
+
         return res;
     }
-    
 }

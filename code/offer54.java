@@ -1,53 +1,45 @@
-package offer;
-
 /**
  * [54] 二叉搜素树的第k大节点
- * 
- * 题目：找出给定二叉搜素数的第k大的结点
- * 
- * 思路：中序遍历二叉搜索树
+ *
+ * 题目: 返回给定二叉搜索树中第 k 大的节点.
+ *
+ * 思路: 二叉搜索树的中序遍历序列是升序的, 所以只要将其左中右的遍历顺序改为右中左, 其遍历序列就会变成降序,
+ *      此时遍历 k 个节点即可得到第 k 大的节点.
  */
-/*
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
 
-    public TreeNode(int val) {
-        this.val = val;
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    private int cnt = 0;
+    private int ret = 0;
 
+    public int kthLargest(TreeNode root, int k) {
+        inorder(root, k);
+        return ret;
     }
-}
-*/
-public class Solution {
-    TreeNode KthNode(TreeNode pRoot, int k) {
-        if (pRoot == null || k == 0) {
-            return null;
-        }
 
-        // use array to store k, because all recursion's k is the same one(very important)
-        int[] K = {k};
-        return kthNodeCore(pRoot, K);
-    }
-
-    TreeNode kthNodeCore(TreeNode node, int[] k) {
-        if (node == null) {
-            return null;
+    private void inorder(TreeNode root, int k) {
+        if (root == null) {
+            return;
         }
-        TreeNode target = kthNodeCore(node.left, k);
-        // if from current node's left subtree cann't find kth node
-        if (target == null) {
-            // judge current node is kth node or not
-            // if current node isn't kth node, k - 1
-            // and continue find (k - 1)th node in current node's right subtree
-            if (k[0] == 1) {
-                return node;
-            }
-            // k - 1 is remain nodes's (k - 1)th(very important)
-            k[0]--;
-            target = kthNodeCore(node.right, k);
+        // traversal order is right to mid to left.
+        inorder(root.right, k);
+        cnt++;
+        if (cnt == k) {
+            ret = root.val;
+            return;
         }
-        
-        return target;
+        inorder(root.left, k);
     }
 }

@@ -1,56 +1,58 @@
-package offer;
-
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * [40] 最小的k个数
+ * [40] 最小的 k 个数
  * 
- * 题目：找出数组中最小的K个数
+ * 题目: 输入整数数组 arr, 找出其中最小的 k 个数.
  * 
- * 思路：1、利用快排的partition函数，同39.数组中出现次数超过一半的数字 
- *      2、遍历数组，使用大小为k的堆，维护到目前为止最小的k个数
+ * 思路: 1. 同 39. 数组中出现次数超过一半的数字, 利用快排的 partition 函数:
+ *         快速排序的 partition() 方法, 会返回一个整数 j 使得 a[lo ... j - 1] 小于等于 a[j], 且 a[j + 1 ... hi] 大于等于 a[j],
+ *         此时 a[j] 就是数组的第 j 大元素. 可以利用这个特性找出数组的第 K 个元素.
+ *      2. 遍历数组, 使用大根堆维护到目前为止最小的 k 个数, 最后返回这 k 个元素即可.
  */
-public class Solution {
-    public ArrayList<Integer> GetLeastNumbers_Solution1(int [] input, int k) {
-        if (input == null || input.length == 0 || input.length < k || k == 0) {
-            return new ArrayList<>();
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
+    public int[] getLeastNumbers1(int[] arr, int k) {
+        if (arr == null || arr.length == 0 || k == 0) {
+            return new int[0];
         }
-        // find kth element between start and end
-        int start = 0, end = input.length - 1;
-        int index = partition(input, start, end);
-        while (index != k - 1) {
-            if (index < k - 1) {
-                start = index + 1;
+        int lo = 0, hi = arr.length - 1;
+        while (lo <= hi) {
+            int index = partition(arr, lo, hi);
+            if (index == k - 1) {
+                // find the kth smallest element.
+                break;
+            } else if (index < k - 1) {
+                lo = index + 1;
             } else {
-                end = index - 1;
+                hi = index - 1;
             }
-            index = partition(input, start, end);
         }
 
-        // collect all k elements
-        ArrayList<Integer> res = new ArrayList<>();
-        for (int i = 0; i <= index; i++) {
-            res.add(input[i]);
+        // partition function will change the array,
+        // let k elements in the front is the smallest k elements.
+        int[] ret = new int[k];
+        for (int i = 0; i < k; i++) {
+            ret[i] = arr[i];
         }
-        return res;
+        return ret;
     }
 
-    // divide target range array to smaller a random value part and other
+    // divide target range array to smaller hi value part and other part.
     private int partition(int[] arr, int start, int end) {
-        // random selecte one value of target range array as divide value
-        swap(arr, start + (int) Math.random() * (end - start + 1), end);
+        int pivot = arr[end];
         int smaller = start - 1;
         while (start < end) {
-            if (arr[start] < arr[end]) {
-                swap(arr, ++smaller, start++);
+            if (arr[start] < pivot) {
+                swap(arr, start++, ++smaller);
             } else {
                 start++;
             }
         }
-        // move end element to right position
-        swap(arr, ++smaller, end);
+        swap(arr, end, ++smaller);
         return smaller;
     }
 
@@ -60,41 +62,25 @@ public class Solution {
         arr[a] = temp;
     }
 
-    public ArrayList<Integer> GetLeastNumbers_Solution2(int [] input, int k) {
-        if (input == null || input.length == 0 || input.length < k || k == 0) {
-            return new ArrayList<>();
+    /**
+     * 时间复杂度: O(n * logk)
+     * 空间复杂度: O(k)
+     */
+    public int[] getLeastNumbers2(int[] arr, int k) {
+        if (arr == null || arr.length == 0 || k == 0) {
+            return new int[0];
         }
-        // make a big root heap size of k
-        // traverse input 
-        // when heap is full and heap's top is bigger than current element
-        // use current element replace heap's top
-        PriorityQueue<Integer> bigHeap = new PriorityQueue<>(new MyComparator());
-        for (int num : input) {
-            if (bigHeap.size() < k) {
-                bigHeap.add(num);
-            } else {
-                if (num < bigHeap.peek()) {
-                    bigHeap.poll();
-                    bigHeap.add(num);
-                }
+        PriorityQueue<Integer> bigHeap = new PriorityQueue<>(
+                (o1, o2) -> o2 - o1
+        );
+        for (int num : arr) {
+            bigHeap.add(num);
+            // keep the size of big root heap is k.
+            if (bigHeap.size() > k) {
+                bigHeap.poll();
             }
         }
 
-        // collect all k elements
-        ArrayList<Integer> res = new ArrayList<>();
-        while (!bigHeap.isEmpty()) {
-            res.add(bigHeap.poll());
-        }
-        return res;
-    }
-
-    // big root heap comparator
-    class MyComparator implements Comparator<Integer> {
-
-        @Override
-        public int compare(Integer o1, Integer o2) {
-            return o2 - o1;
-        }
-
+        return bigHeap.stream().mapToInt(Integer::intValue).toArray();
     }
 }

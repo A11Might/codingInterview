@@ -1,53 +1,56 @@
-package offer;
-
-import java.util.ArrayList;
-
 /**
  * [29] 顺时针打印矩阵
- * 
- * 题目：从外向里以顺时针依次打印矩阵中每一个数字
- * 
- * 思路：由外向内顺时针打印矩阵的每一层元素
+ *
+ * 题目: 按照从外向里以顺时针的顺序依次打印出给定矩阵中的每一个数字.
+ *
+ * 思路: 由外向内顺时针打印矩阵的每一层元素.
  */
+class Solution {
+    /**
+     * 时间复杂度: O(m * n)
+     * 空间复杂度: O(1)
+     */
+    private int[] ret;
+    private int index = 0;
 
-public class Solution {
-    // print matrix one lap by one lap from outside to inside
-    public ArrayList<Integer> printMatrix(int[][] matrix) {
-        ArrayList<Integer> res = new ArrayList<>();
-        int a = 0, b = 0;
-        int c = matrix.length - 1, d = matrix[0].length - 1;
-        while (a <= c && b <= d) {
-            process(matrix, res, a++, b++, c--, d--);
+    public int[] spiralOrder(int[][] matrix) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return new int[0];
         }
-        return res;
+        int rows = matrix.length, cols = matrix[0].length;
+        ret = new int[rows * cols];
+        int r1 = 0, c1 = 0, r2 = rows - 1, c2 = cols - 1;
+        // from outside to inside print matrix.
+        while (r1 <= r2 && c1 <= c2) {
+            process(matrix, r1++, c1++, r2--, c2--);
+        }
+
+        return ret;
     }
 
-    // print matrix's one lap pass (a, b) and (c, d)
-    private void process(int[][] matrix, ArrayList<Integer> res, int a, int b, int c, int d) {
-        // matrix only have one row
-        if (a == c) {
-            for (int i = b; i <= d; i++) {
-                res.add(matrix[a][i]);
+    // print matrix's one lap from (r1, c1) to (r2, c2)
+    private void process(int[][] matrix, int r1, int c1, int r2, int c2) {
+        // it can handle condition which just have one row or one col.
+        // print from (r1, c1) to (r1, c2)
+        for (int j = c1; j <= c2; j++) {
+            ret[index++] = matrix[r1][j];
+        }
+        // print from(r1 + 1, c1) to (r2, c2)
+        for (int i = r1 + 1; i <= r2; i++) {
+            ret[index++] = matrix[i][c2];
+        }
+        // if current condition isn't just have one row,
+        // print from (r2, c2 -1) to (r2, c1)
+        if (r1 != r2) {
+            for (int j = c2 - 1; j >= c1; j--) {
+                ret[index++] = matrix[r2][j];
             }
-        // matrix only have one column
-        } else if (b == d) {
-            for (int i = a; i <= c; i++) {
-                res.add(matrix[i][b]);
-            }
-        // general condition
-        } else {
-            int curRow = a, curCol = b;
-            while (curCol != d) {
-                res.add(matrix[curRow][curCol++]);
-            }
-            while (curRow != c) {
-                res.add(matrix[curRow++][curCol]);
-            }
-            while (curCol != b) {
-                res.add(matrix[curRow][curCol--]);
-            }
-            while (curRow != a) {
-                res.add(matrix[curRow--][curCol]);
+        }
+        // if current condition isn't just have one col,
+        // print from (r2 - 1, c1) to (r1 + 1, c1)
+        if (c1 != c2) {
+            for (int i = r2 - 1; i > r1; i--) {
+                ret[index++] = matrix[i][c1];
             }
         }
     }

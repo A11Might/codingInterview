@@ -1,55 +1,35 @@
-package offer;
-
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 /**
- * [31] 栈的压入、弹出序列
+ * [31] 栈的压入, 弹出序列
  * 
- * 题目：pushA为压入栈的顺序，判断popA是否是pushA的压入弹出序列(鉴别栈混洗)
- * 
- * 思路：使用辅助栈模拟
+ * 题目: 输入两个整数序列, 第一个序列表示栈的压入顺序, 请判断第二个序列是否为该栈的弹出顺序.假设压入栈的所有数字均不相等.
+ *      (鉴别栈混洗)
+ *
+ * 思路: 模拟栈混洗: 使用一个辅助栈, 把输入的第一个序列中的数字依次压入该辅助栈, 并按照第二个序列的顺序依次从该栈中弹出数字.
  */
-public class Solution { 
-    // simulate push and pop operate
-    public boolean IsPopOrder1(int [] pushA,int [] popA) {
-        if (pushA.length == 0) {
-            return false;
-        }
+class Solution {
+    /**
+     * 时间复杂度: O(m + n)
+     * 空间复杂度: O(m + n)
+     */
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        int pushLen = pushed.length, popLen = popped.length;
         Deque<Integer> stack = new ArrayDeque<>();
-        int index = 0;
-        for (int num : pushA) {
-            // orderly push pushA's element into stack
-            stack.push(num);
-            // when stack's top equal with popA's cur element
-            // pop stack's top and popA's cur element move to next
-            // until this two element don't equal againt
-            while (!stack.isEmpty() && stack.peek() == popA[index]) {
+        for (int pushIndex = 0, popIndex = 0; pushIndex < pushed.length; pushIndex++) {
+            // push 'pushed' array's element into stack in order.
+            stack.push(pushed[pushIndex]);
+            // when stack's top equal with 'popped' array's current element,
+            // pop stack's top and 'popped' array's current index plus one for point the next element.
+            // until this two element don't equal again.
+            while (popIndex < popLen && !stack.isEmpty()
+                    && stack.peek() == popped[popIndex]) {
                 stack.pop();
-                index++;
+                popIndex++;
             }
         }
 
         return stack.isEmpty();
-    }
-
-    // simulate the operation in depth(Stack mixed wash)
-    // http://note.youdao.com/noteshare?id=bfa62376c92702c48fc60bf7308f957c&sub=91804C2F369544108E1D83263DB4A621
-    public boolean IsPopOrder2(int[] pushA, int[] popA) {
-        Deque<Integer> stack = new ArrayDeque<>();
-        int indexpush = 0, indexpop = 0;
-        while (indexpop < popA.length) {
-            while (indexpush < pushA.length && pushA[indexpush] != popA[indexpop]) {
-                stack.push(pushA[indexpush++]);
-            }
-            if (indexpush < pushA.length && pushA[indexpush] == popA[indexpop]) {
-                stack.push(pushA[indexpush++]);
-            }
-            if (stack.pop() != popA[indexpop++]) {
-                return false;
-            }
-        }
-        return true;
     }
 }

@@ -1,47 +1,41 @@
-package offer;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * [38] 字符串的排列
  * 
- * 题目：按字典序打印出该字符串中字符的所有排列(字符串可能有字符重复，只包包含小写字母)
- * 
- * 思路：第一步，求所有可能出现在第一个位置的字符(即把第一个字符和后面的所有的字符交换)
- *      第二步，固定第一个字符，递归求后面所有字符的全排列
+ * 题目: 返回给定字符串中字符的所有排列. 可以以任意顺序返回这个字符串数组, 但里面不能有重复元素.
+ *
+ * 思路: 减而治之(回溯算法): 先在给定序列中选择一个数字放在当前位置, 再对剩余的数字进行全排列, 即 f(n) = 1 + f(n - 1).
  */
-public class Solution {
-    public ArrayList<String> Permutation(String str) {
-        ArrayList<String> res = new ArrayList<>();
-        if (str == null || str.length() == 0) {
-            return res;
-        }
-        char[] chrs = str.toCharArray();
-        permutationCore(chrs, 0, res);
-        // make list in dictionary order
-        Collections.sort(res);
-        return res;
+class Solution {
+    /**
+     * 时间复杂度: O(A _n ^n)
+     * 空间复杂度: O(n)
+     */
+    public String[] permutation(String s) {
+        char[] chrs = s.toCharArray();
+        List<String> ret = new ArrayList<>();
+        process(chrs, ret, 0);
+        return ret.toArray(new String[ret.size()]);
     }
 
-    private void permutationCore(char[] chrs, int index, ArrayList<String> res) {
-        // when index equal list's length
-        // add complete string to list
+    private void process(char[] chrs, List<String> ret, int index) {
         if (index == chrs.length) {
-            res.add(String.valueOf(chrs));
-            return;
+            ret.add(new String(chrs));
         }
-        // use set to judge is this char appeared or not
-        // recover char array after recursion(very important)
+        // use set to judge is current char used or not.
         HashSet<Character> set = new HashSet<>();
         for (int i = index; i < chrs.length; i++) {
-            if (!set.contains(chrs[i])) {
-                set.add(chrs[i]);
-                swap(chrs, index, i);
-                permutationCore(chrs, index + 1, res);
-                swap(chrs, index, i);
+            if (set.contains(chrs[i])) {
+                continue;
             }
+            set.add(chrs[i]);
+            swap(chrs, index, i);
+            process(chrs, ret, index + 1);
+            // backtrack: recover char array after recursion(very important).
+            swap(chrs, index, i);
         }
     }
 

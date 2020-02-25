@@ -1,64 +1,62 @@
-package offer;
-
 import java.util.Arrays;
 
 /**
  * [61] 扑克牌中的顺子
  * 
- * 题目：判断给定数组中的数字是否是连续(0可以当做任何数字)
- * 
- * 思路：1、数组排序后判断0的个数是否等于其他相邻数字之间的空缺总数 
- *      2、满足除零外a、无重复元素
- *                  b、最大值与最小值之差小于5
+ * 题目: 从扑克牌中随机抽 5 张牌, 判断是不是一个顺子, 即这 5 张牌是不是连续的. 2 ~ 10为数字本身, A 为 1, J 为 11, Q 为 12 K 为 13,
+ *      而大, 小王为 0, 可以看成任意数字. A 不能视为 14.
+ *
+ * 思路: 1. 数组排序后, 判断 0 的个数是否等于其他相邻数字之间的空缺总数.
+ *      2. 满足除零外 a. 无重复元素; b. 最大值与最小值之差小于 5, 即为顺子.
  */
-public class Solution {
-    public boolean isContinuous1(int [] numbers) {
-        if (numbers == null || numbers.length == 0) {
-            return false;
+class Solution {
+    /**
+     * 时间复杂度: O(n * logn)
+     * 空间复杂度: O(1)
+     */
+    public boolean isStraight1(int[] nums) {
+        Arrays.sort(nums);
+        int cnt = 0;
+        // count the number of zeros.
+        for (int num : nums) {
+            if (num == 0) {
+                cnt++;
+            }
         }
-        // sort array and count zero's number
-        Arrays.sort(numbers);
-        int numOfZero = 0, numOfGap = 0;
-        for (int i = 0; i < numbers.length && numbers[i] == 0; i++) {
-            numOfZero++;
-        }
-        // because array is in order, zero's number is the first not zero element's index
-        // count the gap's number, if have two element is same, directly return false
-        int small = numOfZero, big = small + 1;
-        while (big < numbers.length) {
-            if (numbers[small] == numbers[big]) {
+        // traverse array element except zero,
+        // and use zero to complete the continuous card.
+        for (int i = cnt; i < nums.length - 1; i++) {
+            if (nums[i] == nums[i + 1]) {
                 return false;
             }
-            // two adjacent element's gap, minus one what adjacent numbers all have
-            numOfGap += numbers[big++] - numbers[small++] - 1;
+            cnt -= nums[i + 1] - nums[i] - 1;
         }
 
-        // when gap's number is smaller or equal with zero's number, true
-        return (numOfGap > numOfZero) ? false : true;
+        return cnt >= 0;
     }
 
-    public boolean isContinuous2(int [] numbers) {
-        if (numbers.length != 5) {
-            return false;
-        }
-        // use max and min to store array's maximum and minimum except zero
-        // use bitFlag to mark element in binary system
-        int max = -1, min = 14;
-        int bitFlag = 0;
-        // traverse array
-        // if number is zero, skip
-        // if number isn't zero, search it had store or not, when not to store now and upate maximum and minimum
-        // if maximum minus minimum is bigger or equal with five, the numbers can't succession
-        for (int num : numbers) {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
+    public boolean isStraight2(int[] nums) {
+        // use boolean array visited to mark element had visited or not.
+        // use max and min to storage nums array's maximum and minimum value except zero.
+        boolean[] visited = new boolean[14];
+        int max = 0, min = 14;
+        // traverse array:
+        // judge array have duplication or not except zero,
+        // and judge array the different between maximum and minimum value is smaller than five or not.
+        for (int num : nums) {
             if (num == 0) {
                 continue;
             }
-            if (((bitFlag >> num) & 1) == 1) {
+            if (visited[num]) {
                 return false;
             }
-            bitFlag |= (1 << num);
-            max = num > max ? num : max;
-            min = num < min ? num : min;
+            visited[num] = true;
+            max = Math.max(max, num);
+            min = Math.min(min, num);
             if (max - min >= 5) {
                 return false;
             }

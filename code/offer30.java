@@ -1,34 +1,65 @@
-package offer;
-
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
- * [30] 包含min函数的栈
+ * [30] 包含 min 函数的栈
  * 
- * 题目：实现可以O(1)时间复杂度得到栈中最小值的栈
+ * 题目: 定义栈的数据结构, 请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中, 调用 min, push 及 pop 的时间复杂度都是 O(1).
  * 
- * 思路：使用辅助栈help储存当前最小值
- * https://github.com/A11Might/SomePracticeCode/blob/master/learningCode/GetMinStack.java
+ * 思路: 使用辅助栈 min 存储当前的最小值.
  */
+class MinStack {
 
-public class Solution {
-    public Stack<Integer> data = new Stack<>();
-    public Stack<Integer> help = new Stack<>();
+    private Deque<Integer> data;
+    private Deque<Integer> min;
 
-    public void push(int node) {
-        if (help.isEmpty()) {
-            help.push(node);
-        } else if (help.peek() < node) {
-            help.push(help.peek());
-        } else {
-            help.push(node);
-        }
-        data.push(node);
+    /** initialize your data structure here. */
+    public MinStack() {
+        data = new ArrayDeque<>();
+        min = new ArrayDeque<>();
     }
 
-    public void pop() {
+    /**
+     * 方法一:
+     * 数据栈和最小值栈中元素个数相同.
+     */
+    public void push1(int x) {
+        data.push(x);
+        // always push current minimum element into min stack.
+        if (min.isEmpty()) {
+            min.push(x);
+        } else {
+            min.push(Math.min(x, min.peek()));
+        }
+    }
+
+    public void pop1() {
         data.pop();
-        help.pop();
+        min.pop();
+    }
+
+    /**
+     * 方法二:
+     * 数据栈中元素大于等于最小值栈中元素个数.
+     */
+    public void push2(int x) {
+        data.push(x);
+        // push x into min stack,
+        // only when current insert value x is smaller or equal current minimum element.
+        if (min.isEmpty()) {
+            min.push(x);
+        } else if (x <= min.peek()) {
+            min.push(x);
+        }
+    }
+
+    public void pop2() {
+        int top = data.pop();
+        // when current pop element is equal min stack's top,
+        // pop min stack top element.
+        if (top == min.peek()) {
+            min.pop();
+        }
     }
 
     public int top() {
@@ -36,6 +67,15 @@ public class Solution {
     }
 
     public int min() {
-        return help.peek();
+        return min.peek();
     }
 }
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */

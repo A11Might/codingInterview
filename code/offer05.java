@@ -1,54 +1,32 @@
-package offer;
-
 /**
- * [5] 替换空格
- * 
- * 题目：将字符串的空格替换成 "%20"
- * 
- * 思路：1、从后往前遍历字符串，进行空格替换(避免多次重复移动字符)
- *      2、从前往后遍历字符串，使用StringBuilder重新拼接字符串
+ * [05] 替换空格
+ *
+ * 题目: 将给定字符串 s 中的每个空格都替换成 "%20".
+ *
+ * 思路: 1. 初始化一个 StringBuilder, 遍历字符串, 当前字符为 ' ' 时, 向 StringBuilder 中加入 "%20"; 当前字符不为 ' ' 时,
+ *         向 StringBuilder 中加入该字符.
+ *
+ *      其实原题想考察的是: 给定一个包含空格的字符数组, 将数组中的空格替换为 "%20" 三个字符, 要求额外空间复杂度为 O(1).
+ *      (假设数组中有足够的的空间来保存新添加的字符)
+ *      因为要求额外空间复杂度为 O(1), 所以就在原字符数组上进行操作:
+ *      2. 从前往后遍历字符串, 每次遇到空格时需要先将空格后的字符全部后移两个字节, 再将空格替换为 "%20". 时间复杂度: O(n ^ 2).
+ *      3. 令 P1 指向字符串原来的末尾位置, P2 指向字符串现在的末尾位置. P1 和 P2 从后向前遍历, 当 P1 遍历到一个空格时, 就需要
+ *         令 P2 指向的位置依次填充 "20%" (注意是逆序的), 否则就填充上 P1 指向字符的值. 从后向前遍是为了在改变 P2 所指向的内容
+ *         时, 不会影响到 P1 遍历原来字符串的内容. 这样就避免多次重复移动字符.
  */
-public class Solution {
-    public String replaceSpace1(StringBuffer str) {
-        int spaceNum = 0;
-        // count space's number
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == ' ') {
-                spaceNum++;
-            }
-        }
-        int oldLength = str.length() - 1;
-        int newLength = str.length() + spaceNum * 2;
-        // reset str's length incase nullpoint
-        str.setLength(newLength);
-        int newIndex = newLength - 1;
-        // traverse str's char in reverse order
-        // when current char is ' ' respective 
-        // add '0', '2' and '%' to new position from back to front
-        // otherwise add current char to new position
-        for (int i = oldLength; i >= 0; i--) {
-            if (str.charAt(i) != ' ') {
-                str.setCharAt(newIndex--, str.charAt(i)); 
-            } else {
-                str.setCharAt(newIndex--, '0');
-                str.setCharAt(newIndex--, '2');
-                str.setCharAt(newIndex--, '%');
-            }
-        }
-
-        return str.toString();
-    }
-
-    public String replaceSpace2(StringBuffer str) {
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    public String replaceSpace1(String s) {
         StringBuilder sb = new StringBuilder();
-        // traverse str's char in order
-        // when current char is ' ' add '%20' to stringbuilder
-        // otherwise add current char to stringbuilder
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) != ' ') {
-                sb.append(str.charAt(i));
-            } else {
+        for (char chr : s.toCharArray()) {
+            if (chr == ' ') {
+                // replace all ' ' with "%20".
                 sb.append("%20");
+            } else {
+                sb.append(chr);
             }
         }
 

@@ -1,55 +1,64 @@
-package offer;
-
 /**
  * [36] 二叉搜索树与双向链表
- * 
- * 题目：将二叉搜索树转换成一个排序的双向链表(不能新建节点)
- * 
- * 思路：中序遍历
+ *
+ * 题目: 将给定二叉搜索树转换成一个排序的循环双向链表. 要求不能创建任何新的节点, 只能调整树中节点指针的指向.
+ *
+ * 思路: 因为要创建排序的链表, 所以中序遍历给定二叉树, 依次将遍历到的节点连接起来.
  */
-/**
-public class TreeNode {
-    int val = 0;
-    TreeNode left = null;
-    TreeNode right = null;
 
-    public TreeNode(int val) {
-        this.val = val;
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
 
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
     }
 
-}
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
 */
-public class Solution {
-    // lastNodeOfList at anytime is the same one(very important)
-    public TreeNode lastNodeOfList = null;
-    public TreeNode Convert(TreeNode pRootOfTree) {
-        if (pRootOfTree == null) {
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    // use dummy as the header of the list.
+    private Node dummy = new Node(-1);
+    // use tail point current list's last node,
+    // for connect node to list.
+    private Node tail = dummy;
+
+    public Node treeToDoublyList(Node root) {
+        if (root == null) {
             return null;
         }
-        convertCore(pRootOfTree);
-        // find list first treenode
-        TreeNode firstNodeOfList = pRootOfTree;
-        while (firstNodeOfList.left != null) {
-            firstNodeOfList = firstNodeOfList.left;
-        }
-        return firstNodeOfList;
+        dfs(root);
+
+        // make list to be a circle.
+        Node head = dummy.right;
+        head.left = tail;
+        tail.right = head;
+        return head;
     }
 
-    private void convertCore(TreeNode root) {
+    private void dfs(Node root) {
         if (root == null) {
             return;
         }
-        // recurve make root.left to left list
-        convertCore(root.left);
-        // connect left list with root node
-        root.left = lastNodeOfList;
-        if (lastNodeOfList != null) {
-            lastNodeOfList.right = root;
-        }
-        // recurve make root.right to right list
-        // now, root is the last node of list
-        lastNodeOfList = root;
-        convertCore(root.right);
+        dfs(root.left);
+        // connect current node to list.
+        tail.right = root;
+        root.left = tail;
+        tail = root;
+        dfs(root.right);
     }
 }

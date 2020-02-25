@@ -1,61 +1,77 @@
-package offer;
+/**
+ * [18-I] 删除链表的节点
+ *
+ * 题目: 删除链表的节点
+ *
+ *      给定单向链表的头节点和一个要删除的节点值, 返回删除后的节点的头节点.
+ *      (题目保证链表中节点的值互不相同)
+ *
+ * 思路: 1. 遍历链表同时保存当前节点的前驱节点, 当遇到值等于给定值的节点时, 将其删除.
+ *
+ *      原题是在 O(1) 时间内删除链表节点: 给定单向链表的头节点和一个节点指针, 在O(1)的时间内删除该节点.
+ *      2. 把下一个节点的值复制到需要删除的节点上, 再把下一个节点删除, 相当于将当前需要删除的节点删除了.
+ *         (需要额外考虑需要删除的节点是否是尾节点, 当前链表是否只有一个节点)
+ */
 
 /**
- * [18] 删除链表中重复的节点
- * 
- * 题目：在一个排序的链表中，删除该链表中重复的结点，返回链表头指针(不是去重)
- * 
- * 思路：1 -> 2 -> 2 -> 3
- *      pre  cur  succ
- *      pre  cur       succ
- *      pre -> succ and cur = succ continue
- */     
-/*
- public class ListNode {
-    int val;
-    ListNode next = null;
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(1)
+     */
+     public ListNode deleteNode1(ListNode head, int val) {
+         ListNode dummy = new ListNode(-1);
+         dummy.next = head;
+         // storage current node's previous node.
+         ListNode pre = dummy;
+         while (head != null) {
+             // when meet node which value equal with val, delete its.
+             if (head.val == val) {
+                 pre.next = head.next;
+                 return dummy.next;
+             }
+             pre = head;
+             head = head.next;
+         }
 
-    ListNode(int val) {
-        this.val = val;
-    }
-}
-*/
-public class Solution {
-    public ListNode deleteDuplication(ListNode pHead) {
-        ListNode pre = null;
-        ListNode cur = pHead;
-        ListNode succ = null;
-        while (cur != null) {
-            // judge current element have duplication or not
-            succ = cur.next;
-            boolean flag = false;
-            if (succ != null && succ.val == cur.val) {
-                flag = true;
-            } 
-            // if current element have duplication
-            // find first not duplicatin element
-            // and connect previous node and above node
-            if (flag) {
-                while (succ != null && succ.val == cur.val) {
-                    succ = succ.next;
-                }
-                // if preivous node is null, means the delete duplication is list head
-                // should change the list head to succeed node what is first not duplicatin element
-                // and move current node to next
-                if (pre == null) {
-                    pHead = succ;
-                } else {
-                    pre.next = succ;
-                }
-                cur = succ;
-            // if current element haven't duplication
-            // current node move to next element 
-            } else {
-                pre = cur;
-                cur = cur.next;
-            }
-        }
+         throw new IllegalArgumentException("Haven't a node which value equal val");
+     }
 
-        return pHead;
-    }
+    /**
+     * 时间复杂度: O(1) (平均时间复杂度)
+     * 空间复杂度: O(1)
+     */
+     public ListNode deleteNode2(ListNode head, ListNode toBeDeleted) {
+         if (head == null || toBeDeleted == null) {
+             return null;
+         }
+         if (toBeDeleted.next != null) {
+             // toBeDeleted isn't tail node.
+             toBeDeleted.val = toBeDeleted.next.val;
+             toBeDeleted.next = toBeDeleted.next.next;
+         } else {
+             if (head == toBeDeleted) {
+                 // toBeDeleted is tail node and list just have one node,
+                 // delete the head node.
+                 head = null;
+             } else {
+                 // toBeDeleted is tail node and list have many node,
+                 // can only traverse list to delete tail node.
+                 ListNode cur = head;
+                 while (cur.next != toBeDeleted) {
+                     cur = cur.next;
+                 }
+                 cur.next = null;
+             }
+         }
+
+         return head;
+     }
 }

@@ -1,39 +1,35 @@
-package offer;
-
 /**
  * [27] 二叉树的镜像
  * 
- * 题目：将给定二叉树转化为镜像
+ * 题目: 返回给定二叉树镜像.
  * 
- * 思路：遍历二叉树的每个节点，交换左右子树位置
+ * 思路: 反转给定二叉树: 遍历二叉树的每个节点, 交换左右子树位置.
  */
+
 /**
- * public class TreeNode { 
- *      int val = 0; 
- *      TreeNode left = null; 
- *      TreeNode right = null;
- * 
- *      public TreeNode(int val) { 
- *          this.val = val;
- *      }    
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
-    public void Mirror(TreeNode root) {
-        dfs(root);
-    }
-
-    private void dfs(TreeNode node) {
-        // base case
-        if (node == null) {
-            return;
+class Solution {
+    /**
+     * 时间复杂度: O(n)
+     * 空间复杂度: O(n)
+     */
+    public TreeNode mirrorTree(TreeNode root) {
+        if (root == null) {
+            return null;
         }
-        // change left and right subtree position
-        TreeNode temp = node.right;
-        node.right = node.left;
-        node.left = temp;
-        // recurve function for left and right subtree
-        dfs(node.left);
-        dfs(node.right);
+        // change left and right subtree position,
+        // and recursive call mirrorTree to handle left and right subtree.
+        TreeNode left = root.left;
+        root.left = mirrorTree(root.right);
+        root.right = mirrorTree(left);
+
+        return root;
     }
 }
