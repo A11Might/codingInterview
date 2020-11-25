@@ -1,6 +1,6 @@
 # 剑指Offer 81/75
 
-`oj` 现使用[力扣 oj ](https://leetcode-cn.com/problemset/lcof/)(点击题目, 即可跳转到该题的 oj 页面. 原[牛客 oj 页面](code/OLDREADME.md))
+`oj` 现使用[力扣 oj ](https://leetcode-cn.com/problemset/lcof/)(点击题目, 即可跳转到该题的 oj 页面.
 
 `*` 表示力扣 oj 中没有的题目, 仍使用牛客 oj.
 
@@ -10,7 +10,8 @@
 
 题号|题目|解答|
 ----- | -----  | ----- 
-|3|[数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)|[java](code/offer03.java)|
+|3-I|[数组中重复的数字](https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof/)|[java](code/offer03.java)|
+|3-II|[数组中重复的数字 II](https://leetcode-cn.com/problems/find-the-duplicate-number/)|[java](code/offer032.java)|
 |4|[二维数组中的查找](https://leetcode-cn.com/problems/er-wei-shu-zu-zhong-de-cha-zhao-lcof/)|[java](code/offer04.java)|
 |5|[替换空格](https://leetcode-cn.com/problems/ti-huan-kong-ge-lcof/)|[java](code/offer05.java)|
 |6|[从尾到头打印链表](https://leetcode-cn.com/problems/cong-wei-dao-tou-da-yin-lian-biao-lcof/)|[java](code/offer06.java)|
@@ -30,7 +31,7 @@
 |16|[数值的整数次方](https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/)|[java](code/offer16.java)|
 |17|[打印从 1 到最大的 n 位数](https://leetcode-cn.com/problems/da-yin-cong-1dao-zui-da-de-nwei-shu-lcof/)|[java](code/offer17.java)|
 |18-I|[删除链表的节点](https://leetcode-cn.com/problems/shan-chu-lian-biao-de-jie-dian-lcof/)|[java](code/offer18.java)|
-|18-II*|[数组中重复的数字](https://www.nowcoder.com/practice/fc533c45b73a41b0b44ccba763f866ef?tpId=13&tqId=11209&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](code/offer182.java)|
+|18-II*|[删除链表中重复的节点](https://www.nowcoder.com/practice/fc533c45b73a41b0b44ccba763f866ef?tpId=13&tqId=11209&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)|[java](code/offer182.java)|
 |19|[正则表达式匹配](https://leetcode-cn.com/problems/zheng-ze-biao-da-shi-pi-pei-lcof/)|[java](code/offer19.java)|
 |20|[表示数值的字符串](https://leetcode-cn.com/problems/biao-shi-shu-zhi-de-zi-fu-chuan-lcof/)|[java](code/offer20.java)|
 |21|[调整数组顺序使奇数位于偶数前面](https://leetcode-cn.com/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/)|[java](code/offer21.java)|

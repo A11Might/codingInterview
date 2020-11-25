@@ -27,9 +27,7 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public boolean isSubStructure(TreeNode A, TreeNode B) {
-        if (A == null || B == null) {
-            return false;
-        }
+        if (A == null || B == null) return false;
         return isSubStructureCore(A, B)
                 || isSubStructure(A.left, B) || isSubStructure(A.right, B);
     }
@@ -37,14 +35,10 @@ class Solution {
     private boolean isSubStructureCore(TreeNode root1, TreeNode root2) {
         // root1 == null && root2 == null,
         // or root1 != null && root2 == null.
-        if (root2 == null) {
-            return true;
-        }
+        if (root2 == null) return true;
         // root1 == null & root2 != null,
         // or root1 noe equal root2.
-        if (root1 == null || root1.val != root2.val) {
-            return false;
-        }
+        if (root1 == null || root1.val != root2.val) return false;
         return isSubStructureCore(root1.left, root2.left) && isSubStructureCore(root1.right, root2.right);
     }
 }

@@ -26,11 +26,8 @@ class MinStack {
     public void push1(int x) {
         data.push(x);
         // always push current minimum element into min stack.
-        if (min.isEmpty()) {
-            min.push(x);
-        } else {
-            min.push(Math.min(x, min.peek()));
-        }
+        if (!min.isEmpty() && min.peek() < x) min.push(min.peek());
+        else min.push(x);
     }
 
     public void pop1() {

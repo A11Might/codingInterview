@@ -3,7 +3,7 @@
  * 
  * 题目: 返回给定二叉树镜像.
  * 
- * 思路: 反转给定二叉树: 遍历二叉树的每个节点, 交换左右子树位置.
+ * 思路: 遍历给定二叉树的每个节点，并翻转当前遍历的节点的左右子树
  */
 
 /**
@@ -21,14 +21,14 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public TreeNode mirrorTree(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
+        if (root == null) return null;
         // change left and right subtree position,
-        // and recursive call mirrorTree to handle left and right subtree.
-        TreeNode left = root.left;
-        root.left = mirrorTree(root.right);
-        root.right = mirrorTree(left);
+        TreeNode tmp = root.right;
+        root.right = root.left;
+        root.left = tmp;
+        // recursive call mirrorTree to handle left and right subtree.
+        mirrorTree(root.left);
+        mirrorTree(root.right);
 
         return root;
     }

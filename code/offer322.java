@@ -23,30 +23,24 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        if (root == null) {
-            return Collections.emptyList();
-        }
+        if (root == null) return Collections.emptyList();
         List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> queue = new ArrayDeque<>();
         queue.offer(root);
         while (!queue.isEmpty()) {
             // number of elements in the current level.
-            int size = queue.size();
+            int levelSize = queue.size();
             List<Integer> sublist = new ArrayList<>();
-            while (size-- > 0) {
+            while (levelSize-- > 0) {
                 TreeNode cur = queue.poll();
                 // fulfill the current level's node list.
                 sublist.add(cur.val);
                 // add exist child nodes of the current level in the queue,
                 // for the next level traverse.
-                if (cur.left != null) {
-                    queue.offer(cur.left);
-                }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
-                }
+                if (cur.left != null) queue.offer(cur.left);
+                if (cur.right != null) queue.offer(cur.right);
             }
-            res.add(new ArrayList(sublist));
+            res.add(sublist);
         }
 
         return res;

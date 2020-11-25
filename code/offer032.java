@@ -12,44 +12,26 @@ class Solution {
      * 空间复杂度: O(1)
      */
     public int findDuplicate(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return -1;
-        }
-        // start equal 1 and end equal n
-        int start = 1, end = nums.length - 1;
-        while (start <= end) {
-            int mid = start + ((end - start) >> 1);
-            int count = countRange(nums, start, mid);
-            // when start equal end, judge start(end) is the duplication or not
-            if (start == end) {
-                if (count > 1) {
-                    return start;
-                } else {
-                    break;
-                }
-            }
+        if (nums.length == 0) return -1;
+        int n = nums.length;
+        // from [1, n] to find duplication
+        int l = 1, r = n;
+        while (l < r) {
+            int mid = l + r >> 1;
             // duplication is in left part
-            if (count > (mid - start + 1)) {
-                end = mid;
+            if (check(nums, l, mid)) r = mid;
             // duplication is in right part
-            } else {
-                start = mid + 1;
-            }
+            else l = mid + 1;
         }
-
-        // haven't duplication
-        throw new IllegalArgumentException("No Solution");
+        return l;
     }
-    
-    // count how much number value is between [start, end] in array numbers
-    private int countRange(int[] nums, int start, int end) {
-        int count = 0;
-        for (int num : nums) {
-            if (start <= num && num <= end) {
-                count++;
-            }
-        }
 
-        return count;
+    // judge the range of [start, end] has duplication or not
+    private boolean check(int[] nums, int st, int ed) {
+        int cnt = 0;
+        for (int num : nums) {
+            if (num >= st && num <= ed) cnt++;
+        }
+        return cnt > ed - st + 1;
     }
 }

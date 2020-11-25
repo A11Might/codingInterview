@@ -26,21 +26,15 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public int[] levelOrder(TreeNode root) {
-        if (root == null) {
-            return new int[0];
-        }
+        if (root == null) return new int[0];
         List<Integer> list = new ArrayList<>();
         Deque<TreeNode> queue = new ArrayDeque<>();
         queue.offer(root);
         while (!queue.isEmpty()) {
             TreeNode cur = queue.poll();
             list.add(cur.val);
-            if (cur.left != null) {
-                queue.offer(cur.left);
-            }
-            if (cur.right != null) {
-                queue.offer(cur.right);
-            }
+            if (cur.left != null) queue.offer(cur.left);
+            if (cur.right != null) queue.offer(cur.right);
         }
 
         return list.stream().mapToInt(Integer::intValue).toArray();

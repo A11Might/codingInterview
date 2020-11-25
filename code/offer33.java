@@ -14,36 +14,26 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public boolean verifyPostorder(int[] postorder) {
-        if (postorder == null || postorder.length == 0) {
-            return false;
-        }
+        if (postorder.length == 0) return true;
         return verifyPostorderCore(postorder, 0, postorder.length - 1);
     }
 
     private boolean verifyPostorderCore(int[] postorder, int start, int end) {
-        // when subtree have two, one or none node, the subtree is binary search tree.
-        // when subtree have two nodes, means the node in the end is root node,
-        // and the other node is left or right subtree, this node can bigger and also can smaller than root,
-        // so the tree must be a binary search tree when it only have two node.
-        if (end - start <= 1) {
-            return true;
-        }
+        // when subtree only have one or none node, the subtree is binary search tree.
+        if (start >= end) return true;
         // last element of sequence is root.
         // though root value split sequence to left subtree sequence and right subtree sequence,
         // and judge the root and those two subtree sequence conform to binary search tree or not.
-        int rootValue = postorder[end];
-        int index = start;
-        while (index < end && postorder[index] < rootValue) {
-            index++;
+        int root = postorder[end];
+        int i = start;
+        for (; i < end; i++) {
+            if (postorder[i] > root) break;
         }
-        for (int i = index; i < end; i++) {
-            if (postorder[i] < rootValue) {
-                return false;
-            }
+        for (int j = i; j < end; j++) {
+            if (postorder[j] < root) return false;
         }
-
         // recursive call verifyPostorderCore to judge those two subtree sequence is binary search tree or not.
-        return verifyPostorderCore(postorder, start, index - 1)
-                && verifyPostorderCore(postorder, index, end - 1);
+        return verifyPostorderCore(postorder, start, i - 1)
+                && verifyPostorderCore(postorder, i, end - 1);
     }
 }

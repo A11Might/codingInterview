@@ -21,20 +21,17 @@ class Solution {
      * 空间复杂度: O(1)
      */
     public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
+        if (head == null || head.next == null) return head;
         // when reverse current listNode's next point,
         // use succ to storage current listNode's next listNode,
         // in case break list.
-        ListNode pre = null, cur = head;
+        ListNode pre = null, cur = head, succ = null;
         while (cur != null) {
-            ListNode succ = cur.next;
+            succ = cur.next;
             cur.next = pre;
             pre = cur;
             cur = succ;
         }
-
         return pre;
     }
 
@@ -43,16 +40,13 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public ListNode reverseList2(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
+        if (head == null || head.next == null) return head;
         ListNode succ = head.next;
-        head.next = null;
         // recursive call reverseList2 to solve rest list,
         // then reverse current head node.
         ListNode newHead = reverseList2(succ);
         succ.next = head;
-
+        head.next = null;
         return newHead;
     }
 }

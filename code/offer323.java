@@ -24,36 +24,27 @@ class Solution {
      * 空间复杂度: O(n)
      */
     public List<List<Integer>> levelOrder(TreeNode root) {
-        if (root == null) {
-            return Collections.emptyList();
-        }
+        if (root == null) return Collections.emptyList();
         List<List<Integer>> res = new ArrayList<>();
         Deque<TreeNode> queue = new ArrayDeque<>();
         queue.offer(root);
         boolean flag = true;
         while (!queue.isEmpty()) {
             // number of elements in the current level.
-            int size = queue.size();
+            int levelSize = queue.size();
             LinkedList<Integer> sublist = new LinkedList<>();
-            while (size-- > 0) {
+            while (levelSize-- > 0) {
                 TreeNode cur = queue.poll();
                 // according to flag to decide storage order.
                 // for fulfill the current level's node list.
-                if (flag) {
-                    sublist.add(cur.val);
-                } else {
-                    sublist.addFirst(cur.val);
-                }
+                if (flag) sublist.add(cur.val);
+                else sublist.addFirst(cur.val);
                 // add exist child nodes of the current level in the queue,
                 // for the next level traverse.
-                if (cur.left != null) {
-                    queue.offer(cur.left);
-                }
-                if (cur.right != null) {
-                    queue.offer(cur.right);
-                }
+                if (cur.left != null) queue.offer(cur.left);
+                if (cur.right != null) queue.offer(cur.right);
             }
-            res.add(new ArrayList(sublist));
+            res.add(sublist);
             // when traverse the next level,
             // change the direction of storage order.
             flag = !flag;

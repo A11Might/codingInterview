@@ -22,16 +22,11 @@ class Solution {
      * 空间复杂度: O(1)
      */
     public ListNode mergeTwoLists1(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        }
-        if (l2 == null) {
-            return l1;
-        }
+        if (l1 == null) return l2;
+        if (l2 == null) return l1;
         // use dummy for easy return merged list's head.
         // tail always be the end of current merged list.
-        ListNode dummy = new ListNode(-1);
-        ListNode tail = dummy;
+        ListNode dummy = new ListNode(-1), tail = dummy;
         // merge l1 and l2,
         // until all of them had run out.
         while (l1 != null || l2 != null) {
@@ -46,7 +41,6 @@ class Solution {
             }
             tail = tail.next;
         }
-
         return dummy.next;
     }
 

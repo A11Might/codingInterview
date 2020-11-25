@@ -27,18 +27,14 @@ class Solution {
     private List<List<Integer>> res = new ArrayList<>();
 
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return Collections.emptyList();
-        }
+        if (root == null) return Collections.emptyList();
         dfs(root, new ArrayList<>(), sum);
 
         return res;
     }
 
     private void dfs(TreeNode root, List<Integer> path, int sum) {
-        if (root == null) {
-            return;
-        }
+        if (root == null) return;
         // calculate current node value to current sum,
         // and add current node to path.
         sum -= root.val;

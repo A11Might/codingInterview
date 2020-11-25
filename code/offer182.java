@@ -11,7 +11,6 @@
  *        pre       cur
  *        pre            cur
  *        pre -> cur  continue
- *        (注意: 遍历链表时, 遇到重复节点和没遇到时的操作是不一样, 需要使用布尔值 flag 标记, 以便执行不同的操作.)
  *       2. 递归(减而治之): f(n) = head + f(n - 1).
  *
  *      原题是去重节点, 例如: 链表 1 -> 2 -> 3 -> 3 -> 4 -> 4 -> 5 处理后为 1 -> 2 -> 3 -> 4 -> 5.
@@ -36,34 +35,25 @@ public class Solution {
      * 时间复杂度: O(n)
      * 空间复杂度: O(1)
      */
-    public ListNode deleteDuplication1(ListNode pHead) {
+    public ListNode deleteDuplication1(ListNode head) {
         // head node may be delete,
         // use dummy node to convenience delete head node.
         ListNode dummy = new ListNode(-1);
-        dummy.next = pHead;
-        ListNode pre = dummy;
-        ListNode cur = pHead;
-        while (cur != null) {
-            boolean flag = false;
+        dummy.next = head;
+
+        var pre = dummy;
+        while (pre.next != null) {
             // if current element have duplication,
-            // skip all duplication element to find the first not duplication element,
-            // and marked flag as true.
-            while (cur.next != null && cur.val == cur.next.val) {
-                cur = cur.next;
-                flag = true;
-            }
-            // use flag to mark current element is duplication or not.
-            if (flag) {
-                // if current element have duplication,
-                // connect previous node and first not duplication element for delete duplication.
-                cur = cur.next;
-                pre.next = cur;
-            } else {
-                // if current element haven't duplication,
-                // move previous and current node to the next element.
-                pre = cur;
-                cur = cur.next;
-            }
+            // skip all duplication element to find the last duplication element,
+            ListNode cur = pre.next;
+            while (cur.next != null && cur.val == cur.next.val) cur = cur.next;
+            // can judge have duplication element or not in range from pre to cur by if.
+            // if pre's successor node is cur, it means haven't duplication.
+            // if current element haven't duplication, move previous to the next element and continue loop.
+            if (pre.next == cur) pre = cur;
+            // if pre's successor node is'n cur, it means haven duplication.
+            // if current element have duplication, delete duplication and continue loop
+            else pre.next = cur.next;
         }
 
         return dummy.next;

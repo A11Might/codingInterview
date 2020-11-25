@@ -16,20 +16,20 @@ class Solution {
      */
     public boolean validateStackSequences(int[] pushed, int[] popped) {
         int pushLen = pushed.length, popLen = popped.length;
-        Deque<Integer> stack = new ArrayDeque<>();
-        for (int pushIndex = 0, popIndex = 0; pushIndex < pushed.length; pushIndex++) {
+        if (pushLen != popLen) return false;
+        if (pushLen == 0 && popLen == 0) return true;
+        Deque<Integer> stk = new ArrayDeque<>();
+        for (int pushIndex = 0, popIndex = 0; pushIndex < pushLen; pushIndex++) {
             // push 'pushed' array's element into stack in order.
-            stack.push(pushed[pushIndex]);
+            stk.push(pushed[pushIndex]);
             // when stack's top equal with 'popped' array's current element,
             // pop stack's top and 'popped' array's current index plus one for point the next element.
             // until this two element don't equal again.
-            while (popIndex < popLen && !stack.isEmpty()
-                    && stack.peek() == popped[popIndex]) {
-                stack.pop();
+            while (!stk.isEmpty() && stk.peek() == popped[popIndex]) {
+                stk.pop();
                 popIndex++;
             }
         }
-
-        return stack.isEmpty();
+        return stk.isEmpty();
     }
 }
